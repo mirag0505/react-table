@@ -1,0 +1,5 @@
+export const USER_ADD = 'USER_ADD';
+
+export const TABLE_CLEAR = 'TABLE_CLEAR';
+export const USER_RANDOM_DELETE = 'USER_RANDOM_DELETE';
+export const USER_PREVIOUS_RESTORE = 'USER_PREVIOUS_RESTORE';
