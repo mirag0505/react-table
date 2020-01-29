@@ -1,3 +1,5 @@
+import {USER_ADD} from '../actions/ActionType';
+
 const initialState = {
 	usersList: [
 		{
@@ -25,15 +27,15 @@ const initialState = {
 				'Voronezh'
 			]
 		}
-	],
+	]
 };
 
-export default function tableReducer(state = initialState, action) {
+export default function table(state = initialState, action) {
 	switch (action.type) {
-		// case USER_ADD:
-		// 	return {
-		// 		...state
-		// 	};
+		case USER_ADD:
+			return {
+				...state
+			};
 		// case TABLE_CLEAR:
 		// 	return {
 		// 		...state

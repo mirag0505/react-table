@@ -1,6 +1,8 @@
 import {combineReducers} from 'redux';
-import tableReducer from './table';
+import links from './links';
+import table from './table';
 
 export default combineReducers({
-	table: tableReducer
+	table,
+	links
 });

@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
+import {BrowserRouter} from 'react-router-dom';
+import {applyMiddleware, compose, createStore} from 'redux';
 import thunk from 'redux-thunk';
 import App from './App';
 import './index.scss';
 import * as serviceWorker from './serviceWorker';
-import {applyMiddleware, compose, createStore} from 'redux';
 import rootReducer from './store/reducers/rootReducer';
 
 const composeEnhancers =
@@ -24,7 +25,9 @@ const store = createStore(
 
 const app = (
 	<Provider store={store}>
+		<BrowserRouter>
 			<App/>
+		</BrowserRouter>
 	</Provider>
 );
 
