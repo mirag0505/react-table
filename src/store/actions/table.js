@@ -1,12 +1,8 @@
 import {USER_ADD} from './ActionType';
 
-
-export function addUser() {
-	// localStorage.removeItem('token');
-	// localStorage.removeItem('userId');
-	// localStorage.removeItem('expiration');
-
+export function addUser(newPerson) {
 	return {
-		type: USER_ADD
+		type: USER_ADD,
+		newPerson
 	};
 }
