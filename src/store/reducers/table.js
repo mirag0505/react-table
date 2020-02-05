@@ -1,7 +1,7 @@
-import {USER_ADD} from '../actions/ActionType';
+import {TABLE_CLEAR, USER_ADD, USER_RANDOM_DELETE} from '../actions/ActionType';
 
 const initialState = {
-	nextId: 3,
+	nextId: 5,
 	usersList: [
 		{
 			id: 0,
@@ -23,9 +23,25 @@ const initialState = {
 			id: 2,
 			type: 'main',
 			items: [
-				'Vlad',
+				'Alex',
+				10,
+				'Novgorod'
+			]
+		}, {
+			id: 3,
+			type: 'main',
+			items: [
+				'Ira',
 				6,
-				'Voronezh'
+				'Kiev'
+			]
+		}, {
+			id: 4,
+			type: 'main',
+			items: [
+				'Vlad',
+				13,
+				'Tomsk'
 			]
 		}
 	]
@@ -38,6 +54,17 @@ export default function table(state = initialState, action) {
 				...state,
 				nextId: state.nextId + 1,
 				usersList: [...state.usersList, action.newPerson]
+			};
+		case TABLE_CLEAR:
+			return {
+				...state,
+				nextId: 0,
+				usersList: []
+			};
+		case USER_RANDOM_DELETE:
+			return {
+				...state,
+				usersList: action.newUsersList
 			};
 		default:
 			return state;

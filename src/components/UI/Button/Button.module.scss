@@ -8,6 +8,10 @@
 	text-transform: uppercase;
 	font-weight: bold;
 	font-size: 12px;
+
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 .Button:focus {
@@ -37,6 +41,6 @@
 	color: #fff;
 
 	&:hover {
-		background: #2884f6;
+		background: darken(#2884f6, 20%);
 	}
 }

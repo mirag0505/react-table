@@ -11,6 +11,7 @@ const Button = (props) => {
 			onClick={props.onClick}
 			className={cls.join(' ')}
 			disabled={props.disabled}
+			type={'button'}
 		>
 			{props.children}
 		</button>

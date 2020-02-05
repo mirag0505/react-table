@@ -10,7 +10,7 @@ class App extends Component {
 			<Route path="/users" exact component={Table}/>
 			<Route path="/users/add" exact component={UsersAdd}/>
 			{/*<Route path="/quiz/:id" component={TableId}/>*/}
-			<Route path="/" exact render={() => <h1 style={{'text-align':'center'}}>Тестовое приложение</h1>}/>
+			<Route path="/" exact render={() => <h1 style={{textAlign: 'center'}}>Тестовое приложение</h1>}/>
 			<Redirect to=""/>
 		</Switch>
 	);
