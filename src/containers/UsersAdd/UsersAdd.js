@@ -28,6 +28,12 @@ const UsersAdd = (props) => {
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [formControls, setFormControls] = useState(createFormControls());
 
+	const formHandler = (e) =>{
+		e.preventDefault();
+		console.log(e.type);
+		addNewUser()
+	};
+
 	const changeHandler = (value, controlName) => {
 		let formControlsList = {...formControls};
 		let control = {...formControls[controlName]};
@@ -42,8 +48,7 @@ const UsersAdd = (props) => {
 		setIsFormValid(validateForm(formControlsList));
 	};
 
-	const addNewUser = (event) => {
-		event.preventDefault();
+	const addNewUser = () => {
 		const {name, age, city} = formControls;
 
 		const newPerson = {
@@ -92,13 +97,13 @@ const UsersAdd = (props) => {
 	return (
 		<div className={classes.UsersAdd}>
 			<h2>Добавление нового юзера</h2>
-			<form>
+			<form onSubmit={formHandler}>
 				{renderControls()}
 
 				<Button
-					type="primary"
-					onClick={addNewUser}
+					btnType="primary"
 					disabled={!isFormValid}
+					type="submit"
 				>
 					Добавить нового юзера
 				</Button>

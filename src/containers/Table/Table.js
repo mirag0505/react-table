@@ -78,19 +78,20 @@ class Table extends Component {
 				}
 				<form>
 					<Button
-						type="primary"
+						btnType="primary"
 						onClick={clearTable}
+
 					>
 						Очистить таблицу
 					</Button>
 					<Button
-						type="primary"
+						btnType="primary"
 						onClick={deleteRandomPerson}
 					>
 						Удалить рандомного юзера
 					</Button>
 					<Button
-						type="primary"
+						btnType="primary"
 						onClick={backRemoteUser}
 						disabled={!this.state.isPrewUserDeleted}
 					>
