@@ -1,4 +1,4 @@
-import {TABLE_CLEAR, USER_ADD, USER_PREVIOUS_RESTORE, USER_RANDOM_DELETE} from './ActionType';
+import {TABLE_CLEAR, USER_ADD, USER_LIST_SORTED, USER_PREVIOUS_RESTORE, USER_RANDOM_DELETE} from './ActionType';
 
 export function addUser(newPerson) {
 	return {
@@ -16,6 +16,13 @@ export function clearTable() {
 export function userRandomDeleted(newUsersList) {
 	return {
 		type: USER_RANDOM_DELETE,
+		newUsersList
+	}
+}
+
+export function sortUsersList(newUsersList) {
+	return {
+		type: USER_LIST_SORTED,
 		newUsersList
 	}
 }

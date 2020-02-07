@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {addUser} from '../../../store/actions/table';
+import {addUser, sortUsersList} from '../../../store/actions/table';
 import Button from '../Button/Button';
 import classes from './TableRow.module.scss';
 
@@ -12,20 +12,26 @@ export const TableRow = ({rowInfo, ...props}) => {
 	];
 
 	const sortUsersList = (e, row, typeRow) => {
-		const orderBy = (arr, props, orders) =>
-			[...arr].sort((a, b) =>
-				props.reduce((acc, prop, i) => {
-					if (acc === 0) {
-						const [p1, p2] = orders && orders[i] === 'desc' ? [b[prop], a[prop]] : [a[prop], b[prop]];
-						acc = p1 > p2 ? 1 : p1 < p2 ? -1 : 0;
-					}
-					return acc;
-				}, 0)
-			);
+		const usersList = [...props.usersList];
 
-		if (typeRow === 'number') {
-			console.log(lol);
+		const sortType = ['name', 'age', 'city'];
+		let indexSortType = 0;
+
+		if (sortType.indexOf(row) > -1) {
+			indexSortType = sortType.indexOf(row);
 		}
+
+		let results = usersList.sort(function (a, b) {
+			if (a.items[indexSortType] > b.items[indexSortType]) {
+				return 1;
+			}
+			if (a.items[indexSortType] < b.items[indexSortType]) {
+				return -1;
+			}
+			return 0;
+		});
+
+		props.sortUsersList(results)
 	};
 
 	return (
@@ -62,7 +68,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		sortUsersList: newUsersList => dispatch(addUser(newUsersList)),
+		sortUsersList: newUsersList => dispatch(sortUsersList(newUsersList)),
 	};
 }
 
