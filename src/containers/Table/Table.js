@@ -70,6 +70,7 @@ class Table extends Component {
 					this.props.usersList.map(rowInfo => {
 						return (
 							<TableRow
+								id={rowInfo.id}
 								rowInfo={rowInfo}
 								key={rowInfo.id}
 							/>

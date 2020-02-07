@@ -19,10 +19,3 @@ export function userRandomDeleted(newUsersList) {
 		newUsersList
 	}
 }
-
-export function backRemoteUser(prewUserDeleted) {
-	return {
-		type: USER_PREVIOUS_RESTORE,
-		prewUserDeleted
-	}
-}

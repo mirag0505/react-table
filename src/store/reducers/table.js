@@ -1,4 +1,4 @@
-import {TABLE_CLEAR, USER_ADD, USER_RANDOM_DELETE} from '../actions/ActionType';
+import {TABLE_CLEAR, USER_ADD, USER_RANDOM_DELETE, USER_LIST_SORTED} from '../actions/ActionType';
 
 const initialState = {
 	nextId: 5,
@@ -6,11 +6,11 @@ const initialState = {
 		{
 			id: 0,
 			type: 'header',
-			items: [
-				'name',
-				'age',
-				'city'
-			]
+			items: {
+				name: 'string',
+				age: 'number',
+				city: 'string'
+			}
 		}, {
 			id: 1,
 			type: 'main',
@@ -62,6 +62,11 @@ export default function table(state = initialState, action) {
 				usersList: []
 			};
 		case USER_RANDOM_DELETE:
+			return {
+				...state,
+				usersList: action.newUsersList
+			};
+		case USER_LIST_SORTED:
 			return {
 				...state,
 				usersList: action.newUsersList

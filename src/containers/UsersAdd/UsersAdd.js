@@ -30,7 +30,6 @@ const UsersAdd = (props) => {
 
 	const formHandler = (e) =>{
 		e.preventDefault();
-		console.log(e.type);
 		addNewUser()
 	};
 

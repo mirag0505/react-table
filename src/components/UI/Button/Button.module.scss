@@ -33,7 +33,11 @@
 }
 
 .success {
-	background: rgba(161, 240, 69, 1);
+	background: #A1F045;
+
+	&:hover {
+		background: darken(#A1F045, 20%);
+	}
 }
 
 .primary {
