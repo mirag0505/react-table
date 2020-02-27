@@ -1,10 +1,12 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {addUser, sortUsersList} from '../../../store/actions/table';
+import {connect, useDispatch, useSelector} from 'react-redux';
+import {sortUsersListAction} from '../../../store/actions/table';
 import Button from '../Button/Button';
 import classes from './TableRow.module.scss';
 
 export const TableRow = ({rowInfo, ...props}) => {
+	const dispatch = useDispatch();
+	const usersList = useSelector(state => state.table.usersList);
 
 	const cls = [
 		classes.TableRow,
@@ -12,7 +14,7 @@ export const TableRow = ({rowInfo, ...props}) => {
 	];
 
 	const sortUsersList = (e, row, typeRow) => {
-		const usersList = [...props.usersList];
+		const usersListSorted = [...usersList];
 
 		const sortType = ['name', 'age', 'city'];
 		let indexSortType = 0;
@@ -21,7 +23,7 @@ export const TableRow = ({rowInfo, ...props}) => {
 			indexSortType = sortType.indexOf(row);
 		}
 
-		let results = usersList.sort(function (a, b) {
+		const results = usersListSorted.sort(function (a, b) {
 			if (a.items[indexSortType] > b.items[indexSortType]) {
 				return 1;
 			}
@@ -31,7 +33,8 @@ export const TableRow = ({rowInfo, ...props}) => {
 			return 0;
 		});
 
-		props.sortUsersList(results)
+		console.log(results);
+		dispatch(sortUsersListAction(results));
 	};
 
 	return (
@@ -60,16 +63,4 @@ export const TableRow = ({rowInfo, ...props}) => {
 
 };
 
-function mapStateToProps(state) {
-	return {
-		usersList: state.table.usersList
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		sortUsersList: newUsersList => dispatch(sortUsersList(newUsersList)),
-	};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TableRow);
+export default TableRow;

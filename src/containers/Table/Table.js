@@ -1,122 +1,104 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import Button from '../../components/UI/Button/Button';
 import TableRow from '../../components/UI/Table-row/TableRow';
-import {addUser, clearTable, userRandomDeleted} from '../../store/actions/table';
+import {addUserAction, clearTableAction, userRandomDeletedAction} from '../../store/actions/table';
 import classes from './Table.module.scss';
 
-class Table extends Component {
-	state = {
-		prewUserDeleted: {},
-		isPrewUserDeleted: false
+const Table = (props) => {
+	const nextId = useSelector(state => state.table.nextId);
+	const usersList = useSelector(state => state.table.usersList);
+
+	const dispatch = useDispatch();
+
+	const [prewUserDeleted, setPrewUserDeleted] = useState({});
+	const [isPrewUserDeleted, setIsPrewUserDeleted] = useState(false);
+
+	const clearTable = (e) => {
+		e.preventDefault();
+		dispatch(clearTableAction());
 	};
 
-	render() {
-		const clearTable = (event) => {
-			event.preventDefault();
-			this.props.clearTable();
+	const deleteRandomPerson = (e) => {
+		e.preventDefault();
+
+		const userList = usersList
+			.filter(user => user.type === 'main')
+			.map(user => user.id);
+
+		if (!userList.length) return;
+
+		const idRandomUser = userList[Math.floor(Math.random() * userList.length)];
+
+		const deletedUser = usersList
+			.filter(user => user.id === idRandomUser)
+			.reduce((acc, deletedUser) => acc = deletedUser);
+
+		setPrewUserDeleted(deletedUser);
+		setIsPrewUserDeleted(true);
+
+		const newUsersList = usersList.filter(user => {
+			return user.id !== idRandomUser;
+		});
+
+		dispatch(userRandomDeletedAction(newUsersList));
+	};
+
+	const backRemoteUser = (event) => {
+		event.preventDefault();
+
+		const {type, items} = prewUserDeleted;
+		const newPerson = {
+			id: nextId,
+			type: type,
+			items: items
 		};
 
-		const deleteRandomPerson = (event) => {
-			event.preventDefault();
+		if (isPrewUserDeleted) {
+			addUserAction(newPerson);
+		}
 
-			const userList = this.props.usersList
-				.filter(user => user.type === 'main')
-				.map(user => user.id);
+		setPrewUserDeleted({});
+		setIsPrewUserDeleted(false);
+	};
 
-			if (!userList.length) return;
-
-			const idRandomUser = userList[Math.floor(Math.random() * userList.length)];
-
-			const deletedUser = this.props.usersList
-				.filter(user => user.id === idRandomUser)
-				.reduce((acc, deletedUser) => acc = deletedUser);
-
-			this.setState({
-				prewUserDeleted: deletedUser,
-				isPrewUserDeleted: true
-			});
-
-			const newUsersList = this.props.usersList.filter(user => {
-				return user.id !== idRandomUser;
-			});
-
-			this.props.userRandomDeleted(newUsersList);
-		};
-
-		const backRemoteUser = (event) => {
-			event.preventDefault();
-
-			const {type, items} = this.state.prewUserDeleted;
-			const newPerson = {
-				id: this.props.nextId,
-				type: type,
-				items: items
-			};
-
-			if (this.state.isPrewUserDeleted) {
-				this.props.addUser(newPerson);
+	return (
+		<div className={classes.Table}>
+			{
+				usersList.map(rowInfo => {
+					return (
+						<TableRow
+							id={rowInfo.id}
+							rowInfo={rowInfo}
+							key={rowInfo.id}
+						/>
+					);
+				})
 			}
+			<form>
+				<Button
+					btnType="primary"
+					onClick={clearTable}
 
-			this.setState({
-				prewUserDeleted: {},
-				isPrewUserDeleted: false
-			});
-		};
+				>
+					Очистить таблицу
+				</Button>
+				<Button
+					btnType="primary"
+					onClick={deleteRandomPerson}
+				>
+					Удалить рандомного юзера
+				</Button>
+				<Button
+					btnType="primary"
+					onClick={backRemoteUser}
+					disabled={!isPrewUserDeleted}
+				>
+					Восстановить
+				</Button>
+			</form>
+		</div>
+	);
+};
 
-		return (
-			<div className={classes.Table}>
-				{
-					this.props.usersList.map(rowInfo => {
-						return (
-							<TableRow
-								id={rowInfo.id}
-								rowInfo={rowInfo}
-								key={rowInfo.id}
-							/>
-						);
-					})
-				}
-				<form>
-					<Button
-						btnType="primary"
-						onClick={clearTable}
-
-					>
-						Очистить таблицу
-					</Button>
-					<Button
-						btnType="primary"
-						onClick={deleteRandomPerson}
-					>
-						Удалить рандомного юзера
-					</Button>
-					<Button
-						btnType="primary"
-						onClick={backRemoteUser}
-						disabled={!this.state.isPrewUserDeleted}
-					>
-						Восстановить
-					</Button>
-				</form>
-			</div>
-		);
-	}
-}
-
-function mapStateToProps(state) {
-	return {
-		nextId: state.table.nextId,
-		usersList: state.table.usersList
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		clearTable: () => dispatch(clearTable()),
-		userRandomDeleted: newListUsers => dispatch(userRandomDeleted(newListUsers)),
-		addUser: newPerson => dispatch(addUser(newPerson)),
-	};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Table);
+export default Table;

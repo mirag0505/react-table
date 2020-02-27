@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import {createControl, validate, validateForm} from '../../form/FormFramework';
-import {addUser} from '../../store/actions/table';
+import {addUserAction} from '../../store/actions/table';
 import classes from './UsersAdd.module.scss';
 
 function createFormControls() {
@@ -25,12 +25,15 @@ function createFormControls() {
 
 
 const UsersAdd = (props) => {
+	const nextId = useSelector(state => state.table.nextId);
+	const dispatch = useDispatch();
+
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [formControls, setFormControls] = useState(createFormControls());
 
-	const formHandler = (e) =>{
+	const formHandler = (e) => {
 		e.preventDefault();
-		addNewUser()
+		addNewUser();
 	};
 
 	const changeHandler = (value, controlName) => {
@@ -51,7 +54,7 @@ const UsersAdd = (props) => {
 		const {name, age, city} = formControls;
 
 		const newPerson = {
-			id: props.nextId,
+			id: nextId,
 			type: 'main',
 			items: [
 				name.value,
@@ -60,7 +63,7 @@ const UsersAdd = (props) => {
 			]
 		};
 
-		props.addUser(newPerson);
+		dispatch(addUserAction(newPerson));
 
 		let clearFormControls = {...formControls};
 
@@ -111,16 +114,4 @@ const UsersAdd = (props) => {
 	);
 };
 
-function mapStateToProps(state) {
-	return {
-		nextId: state.table.nextId
-	};
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		addUser: newPerson => dispatch(addUser(newPerson)),
-	};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(UsersAdd);
+export default UsersAdd;
